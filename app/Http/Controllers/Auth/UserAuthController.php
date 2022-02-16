@@ -10,28 +10,41 @@ class UserAuthController extends Controller
 {
     public function register(Request $request)
     {
-        $data = $request->validate([
-            'name'      => 'required|max:255',
-            'email'     => 'required|email|unique:users',
-            'password'  => 'required|confirmed',
-        ]);
+        try {
+            $data = $request->validate([
+                'name'      => 'required|max:255',
+                'email'     => 'required|email|unique:users',
+                'password'  => 'required|confirmed',
+            ]);
 
-        $data['password'] = bcrypt($request->password);
+            $data['password'] = bcrypt($request->password);
 
-        $user = User::create($data);
 
-        $token = $user->createToken('API Token')->accessToken;
+            $user = User::create($data);
+
+            $token = $user->createToken('API Token')->accessToken;
+        } catch (\Exception $e) {
+            return response([
+                'message' => $e->getMessage(),
+            ]);
+        }
 
         return response(['user' => $user, 'token' => $token]);
     }
 
     public function login(Request $request)
     {
-        $data = $request->validate([
-            'email' => 'email|required',
-            'password' => 'required'
-        ]);
+        try {
+            $data = $request->validate([
+                'email' => 'email|required',
+                'password' => 'required'
+            ]);
 
+        } catch (\Exception $e) {
+            return response([
+                'message' => $e->getMessage(),
+            ]);
+        }
         if (!auth()->attempt($data)) {
             return response(['error_message' => 'Incorrect Details.
             Please try again']);
