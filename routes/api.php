@@ -18,8 +18,8 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', [\App\Http\Controllers\Auth\UserAuthController::class, 'register']);
-Route::post('/login', [\App\Http\Controllers\Auth\UserAuthController::class, 'login']);
+Route::post('/register', [\App\Http\Controllers\Auth\UserAuthController::class, 'register'])->name('register');
+Route::post('/login', [\App\Http\Controllers\Auth\UserAuthController::class, 'login'])->name('login');
 
 Route::apiResource('/employee', \App\Http\Controllers\EmployeeController::class)->middleware('auth:api');
 
