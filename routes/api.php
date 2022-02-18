@@ -19,8 +19,9 @@ Route::get('/user', function (Request $request) {
 });
 
 Route::post('/register', [\App\Http\Controllers\Auth\UserAuthController::class, 'register'])->name('register');
-Route::post('/login', [\App\Http\Controllers\Auth\UserAuthController::class, 'login'])->name('login');
-Route::post('/forgot', [\App\Http\Controllers\ForgotController::class, 'forgot'])->name('forgot');
+Route::post('/login',    [\App\Http\Controllers\Auth\UserAuthController::class, 'login'])->name('login');
+Route::post('/forgot',   [\App\Http\Controllers\ForgotController::class, 'forgot'])->name('forgot');
+Route::post('/reset',   [\App\Http\Controllers\ForgotController::class, 'reset'])->name('reset');
 
 Route::apiResource('/employee', \App\Http\Controllers\EmployeeController::class)->middleware('auth:api');
 
